@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 import { ChatModule } from './chat/chat.module';
+import { WindowRef } from './common/service/window-ref.service';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { ChatModule } from './chat/chat.module';
     BrowserModule,
     ChatModule
   ],
-  providers: [],
+  providers: [WindowRef],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
