@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 
 import { ChatModule } from './chat/chat.module';
 import { WindowRef } from './common/service/window-ref.service';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { WindowRef } from './common/service/window-ref.service';
     BrowserModule,
     ChatModule
   ],
-  providers: [WindowRef],
+  providers: [WindowRef, HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

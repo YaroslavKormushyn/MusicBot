@@ -21,7 +21,11 @@
       "styles": [
         "styles.scss"
       ],
-      "scripts": ["prolog.js"],
+      "scripts": [
+        "prolog.js",
+        "app/common/prolog/lists.js",
+        "app/common/prolog/random.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

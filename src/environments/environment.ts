@@ -5,5 +5,6 @@ export const environment = {
   dialogflow:
     {
       angularBot: '57b2d693b1d04a40a8a31e8c27a2de0e'
-    }
+    },
+  prologTimeout: 3000
 };

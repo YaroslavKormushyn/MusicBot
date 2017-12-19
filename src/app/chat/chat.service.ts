@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export class Message {
-  constructor(public content: string, public sentBy: string) {}
+  constructor(public content: string, public sentBy: string) { }
 }
 
 @Injectable()
@@ -18,7 +18,7 @@ export class ChatService {
 
   conversation = new BehaviorSubject<Message[]>([]);
 
-  constructor() {}
+  constructor() { }
 
   // Sends and receives messages via DialogFlow
   converse(msg: string) {
@@ -26,19 +26,15 @@ export class ChatService {
     this.update(userMessage);
 
     return this.client.textRequest(msg)
-               .then(res => {
-                  const speech = res.result.fulfillment.speech;
-                  const botMessage = new Message(speech, 'bot');
-                  this.update(botMessage);
-               });
+      .then(response => {
+        const speech = response.result.fulfillment.speech;
+        const botMessage = new Message(speech, 'bot');
+        this.update(botMessage);
+      });
   }
-
-
 
   // Adds message to source
   update(msg: Message) {
     this.conversation.next([msg]);
   }
-
-
 }

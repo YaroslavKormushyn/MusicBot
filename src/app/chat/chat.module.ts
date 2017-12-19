@@ -5,18 +5,20 @@ import { ChatDialogComponent } from './chat-dialog/chat-dialog.component';
 import { ChatService } from './chat.service';
 
 import { FormsModule } from '@angular/forms';
-import { PrologConnectionService } from '../common/service/prolog-connection.service';
+import { PrologService } from '../common/service/prolog.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   declarations: [
     ChatDialogComponent
   ],
   exports: [ ChatDialogComponent ],
-  providers: [ChatService, PrologConnectionService]
+  providers: [ChatService, PrologService]
 })
 export class ChatModule { }
