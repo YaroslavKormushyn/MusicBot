@@ -472,3 +472,23 @@ song("Never 2 Far", "Eminem", "Infinite", ["Hip Hop"]).
 song("Searchin", "Eminem", "Infinite", ["Hip Hop"]).
 song("Backstabber", "Eminem", "Infinite", ["Hip Hop"]).
 song("Jealousy Woes II", "Eminem", "Infinite", ["Hip Hop"]).
+
+find_artist(Name, Artist) :-
+    artist(Name),
+	Artist = artist(Name).
+
+find_song_by_name(Name, Song) :-
+    song(Name, Artist, Album, Genres),
+    Song = song(Name, Artist, Album, Genres).
+
+find_song_by_artist(Artist, Song) :-
+    song(Name, Artist, Album, Genres),
+    Song = song(Name, Artist, Album, Genres).
+
+find_song_by_album(Album, Song) :-
+Song = song(_, _, Album, _).
+
+find_song_by_genre(Genre, Song) :-
+    song(Name, Artist, Album, Genres),
+    member(Genre, Genres),
+    Song = song(Name, Artist, Album, Genres).

@@ -13,7 +13,7 @@ export class PrologService {
     private http: HttpClient) {
 
     this.prolog = winRef.nativeWindow.pl;
-    this.session = this.prolog.create(environment.prologTimeout);
+    this.session = this.prolog.create();
 
     this.http.get('assets/db.pl', { responseType: 'text' })
       .subscribe(data => {

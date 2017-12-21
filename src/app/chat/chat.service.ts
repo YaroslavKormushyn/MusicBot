@@ -28,7 +28,9 @@ export class ChatService {
     return this.client.textRequest(msg)
       .then(response => {
         const speech = response.result.fulfillment.speech;
-        const botMessage = new Message(speech, 'bot');
+        const reply = this.getResponse(response.result.metadata.intentName);
+        console.log(response);
+        const botMessage = new Message(reply, 'bot');
         this.update(botMessage);
       });
   }
@@ -36,5 +38,11 @@ export class ChatService {
   // Adds message to source
   update(msg: Message) {
     this.conversation.next([msg]);
+  }
+
+  getResponse(intent: string) {
+    return (environment.reply[intent] == null)
+    ? environment.reply.fallback[Math.floor(Math.random() * environment.reply.fallback.length)]
+    : environment.reply[intent][Math.floor(Math.random() * environment.reply[intent].length)];
   }
 }
