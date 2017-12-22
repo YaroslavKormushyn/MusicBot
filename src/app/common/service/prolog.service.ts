@@ -3,6 +3,11 @@ import { WindowRef } from './window-ref.service';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Song } from '../../../app/common/models/song'
+import { Artist } from '../models/artist';
+import { Service } from '../models/service';
+import { Album } from '../models/Album';
+import { Genre } from '../models/genre';
+import { Sort } from '../models/sort';
 
 @Injectable()
 export class PrologService {
@@ -16,34 +21,78 @@ export class PrologService {
     this.prolog = winRef.nativeWindow.pl;
     this.session = this.prolog.create();
 
-      
-
     this.http.get('assets/db.pl', { responseType: 'text' })
       .subscribe(data => {
         const parsed = this.session.consult(data);
         if (parsed !== true) {
           console.error(parsed);
         } else {
-          console.log(this.session);
-          // Example query, will be moved to other serviceS
-          this.session.query('song(A, B, C, D).');
-          var temporary: string;
-          var arrayOfAnswers : string[];
-          arrayOfAnswers = [];
-          this.session.answers(100, answer => { 
-            if (answer != undefined) {
-              arrayOfAnswers.push(answer);
+          this.session.query('song(Name, Artist, Album, Genres).');
+          const arrayOfAnswers: string[] = [];
+          this.session.answer(answer => {
+            if (answer !== undefined) {
+              arrayOfAnswers.push(answer.toString());
             }
           });
-          /* Після отримання пісні з Прологу, 
-          щоб привести назву пісні в нормальну форму потрібно:
-            1. Зробити заміну всіх 'afsl_' на '' (пусту стрічку)
-            2. Зробити заміну всіх '_' на ' ' (пропуск)
-            */
           arrayOfAnswers.map(answer => {
-            console.log(answer);
+            console.log(this.parseSong(answer));
           });
         }
       });
+  }
+
+  public parseArtist(answer: string): Artist {
+    const json = answer.replace(/\//g, ' : ')
+      .replace(/afsl_/g, '"')
+      .replace(/_/g, ' ')
+      .replace('Name', '"Name"');
+    return JSON.parse(json) as Artist;
+  }
+
+  public parseAlbum(answer: string): Album {
+    const json = answer.replace(/\//g, ' : ')
+      .replace(/afsl_/g, '"')
+      .replace(/_/g, ' ')
+      .replace('Name', '"Name"')
+      .replace('Artist', '"Artist"');
+    return JSON.parse(json) as Album;
+  }
+
+  public parseGenre(answer: string): Genre {
+    const json = answer.replace(/\//g, ' : ')
+      .replace(/afsl_/g, '"')
+      .replace(/_/g, ' ')
+      .replace('Name', '"Name"')
+      .replace('Artist', '"Artist"')
+      .replace('Album', '"Album"')
+      .replace('Genres', '"Genres"');
+    return JSON.parse(json) as Genre;
+  }
+
+  public parseSong(answer: string): Song {
+    const json = answer.replace(/\//g, ' : ')
+      .replace(/afsl_/g, '"')
+      .replace(/_/g, ' ')
+      .replace('Name', '"Name"')
+      .replace('Artist', '"Artist"')
+      .replace('Album', '"Album"')
+      .replace('Genres', '"Genres"');
+    return JSON.parse(json) as Song;
+  }
+
+  public parseSort(answer: string): Sort {
+    const json = answer.replace(/\//g, ' : ')
+      .replace(/afsl_/g, '"')
+      .replace(/_/g, ' ')
+      .replace('Name', '"Name"');
+    return JSON.parse(json) as Sort;
+  }
+
+  public parseService(answer: string): Service {
+    const json = answer.replace(/\//g, ' : ')
+      .replace(/afsl_/g, '"')
+      .replace(/_/g, ' ')
+      .replace('Name', '"Name"');
+    return JSON.parse(json) as Service;
   }
 }

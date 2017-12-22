@@ -1,7 +1,6 @@
-export class Song
-{
-    songName: string;
-    bandName: string;
-    albumName: string;
-    styleNames: string[];
+export class Song {
+    Name: string;
+    Artist: string;
+    Album: string;
+    Genres: string[];
 }
